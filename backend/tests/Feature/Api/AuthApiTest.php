@@ -64,6 +64,25 @@ class AuthApiTest extends TestCase
             ]);
     }
 
+    public function test_login_issues_token_without_expiration(): void
+    {
+        User::factory()->create([
+            'email' => 'admin@example.com',
+            'password' => Hash::make('secret-password'),
+        ]);
+
+        $this->postJson('/api/login', [
+            'email' => 'admin@example.com',
+            'password' => 'secret-password',
+        ])->assertOk();
+
+        $this->assertDatabaseHas('personal_access_tokens', [
+            'name' => 'spa',
+            'expires_at' => null,
+        ]);
+        $this->assertNull(config('sanctum.expiration'));
+    }
+
     public function test_logout_revokes_current_token(): void
     {
         $user = User::factory()->create();
