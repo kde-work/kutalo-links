@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -16,7 +17,13 @@ export class AuthService {
   ) {
     const token = this.getToken();
     if (token) {
-      this.loadUser().subscribe({ error: () => this.logout() });
+      this.loadUser().subscribe({
+        error: (error: HttpErrorResponse) => {
+          if (error.status === 401) {
+            this.clearSession();
+          }
+        },
+      });
     }
   }
 
@@ -46,6 +53,10 @@ export class AuthService {
     if (token) {
       this.http.post('/api/logout', {}).subscribe({ error: () => undefined });
     }
+    this.clearSession();
+  }
+
+  clearSession(): void {
     localStorage.removeItem(TOKEN_KEY);
     this.user.set(null);
     this.router.navigate(['/login']);
