@@ -1,0 +1,21 @@
+# Git
+.git
+.gitignore
+
+# Секреты и локальные env (монтируются в runtime)
+.env
+.env.*
+!.env.example
+
+# Frontend: зависимости и кэш собираются внутри образа
+frontend/node_modules
+frontend/.angular
+
+# Backend: vendor ставится в образе links-php
+backend/vendor
+
+# IDE и артефакты
+.idea
+.vscode
+*.log
+.phpunit.result.cache
