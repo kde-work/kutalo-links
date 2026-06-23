@@ -9,16 +9,41 @@ use Tests\TestCase;
  */
 class SpaRouteTest extends TestCase
 {
+    private const STUB_HTML = '<!doctype html><html><body>spa</body></html>';
+
+    private ?string $originalSpaIndex = null;
+
+    private bool $spaIndexExisted = false;
+
     protected function setUp(): void
     {
         parent::setUp();
+
+        $spaIndex = public_path('spa/browser/index.html');
+        $this->spaIndexExisted = is_file($spaIndex);
+        if ($this->spaIndexExisted) {
+            $this->originalSpaIndex = file_get_contents($spaIndex);
+        }
 
         $spaDir = public_path('spa/browser');
         if (! is_dir($spaDir)) {
             mkdir($spaDir, 0777, true);
         }
 
-        file_put_contents($spaDir.'/index.html', '<!doctype html><html><body>spa</body></html>');
+        file_put_contents($spaIndex, self::STUB_HTML);
+    }
+
+    protected function tearDown(): void
+    {
+        $spaIndex = public_path('spa/browser/index.html');
+
+        if ($this->spaIndexExisted && $this->originalSpaIndex !== null) {
+            file_put_contents($spaIndex, $this->originalSpaIndex);
+        } elseif (! $this->spaIndexExisted) {
+            @unlink($spaIndex);
+        }
+
+        parent::tearDown();
     }
 
     public function test_login_path_serves_spa(): void

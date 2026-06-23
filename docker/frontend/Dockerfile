@@ -13,8 +13,8 @@ FROM nginx:1.27-alpine
 RUN apk add --no-cache curl
 
 COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY --from=frontend-build /app/backend/public/spa/browser /var/www/html/public/spa
 COPY backend/public /var/www/html/public
+COPY --from=frontend-build /app/backend/public/spa/browser /var/www/html/public/spa/browser
 
 WORKDIR /var/www/html
 
