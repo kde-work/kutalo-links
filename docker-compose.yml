@@ -27,6 +27,7 @@ services:
       - links-php
     volumes:
       - ./backend:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     networks:
       - kutalo-appnet
     labels:
