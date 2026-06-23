@@ -2,10 +2,10 @@
 .git
 .gitignore
 
-# Секреты и локальные env (монтируются в runtime)
-.env
-.env.*
-!.env.example
+# Секреты (монтируются в runtime через volume backend/)
+backend/.env
+backend/.env.*
+!backend/.env.example
 
 # Frontend: зависимости и кэш собираются внутри образа
 frontend/node_modules

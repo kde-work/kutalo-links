@@ -31,7 +31,7 @@ bash docs/switch-to-local.sh
 
 ```bash
 cd kutalo/links
-cp .env.example .env
+cp backend/.env.example backend/.env
 # заполните DB_PASSWORD и REDIS_PASSWORD из mysql/.env и infra/.env
 docker compose up -d --build
 docker compose exec links-php php artisan key:generate
@@ -39,8 +39,8 @@ docker compose exec links-php php artisan migrate --seed
 ```
 
 4. Откройте `http://l.kutalo.test` и войдите:
-   - email: `ADMIN_EMAIL` из `.env` (по умолчанию `admin@kutalo.test`)
-   - пароль: `ADMIN_PASSWORD` из `.env`
+   - email: `ADMIN_EMAIL` из `backend/.env` (по умолчанию `admin@kutalo.test`)
+   - пароль: `ADMIN_PASSWORD` из `backend/.env`
 
 ## API
 
