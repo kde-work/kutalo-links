@@ -1,0 +1,7 @@
+{
+  "/api": {
+    "target": "http://l.kutalo.test",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

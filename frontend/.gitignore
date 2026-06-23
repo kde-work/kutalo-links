@@ -1,0 +1,58 @@
+# Сборка
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Angular
+/.angular/cache
+
+# Тесты и покрытие
+/coverage
+__screenshots__/
+
+# TypeScript
+*.tsbuildinfo
+
+# Окружение
+.env
+.env.*
+!.env.example
+
+# IDE и редакторы
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.fleet/
+.zed/
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/mcp.json
+.history/*
+
+# Прочее
+.sass-cache/
+/connect.lock
+/libpeerconnection.log
+testem.log
+/typings
+
+# Системные файлы
+.DS_Store
+Thumbs.db
+.vscode

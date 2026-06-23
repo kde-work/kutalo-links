@@ -1,0 +1,9 @@
+services:
+  links-nginx:
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.links.rule: "Host(`l.kutalo.com`)"
+      traefik.http.routers.links.entrypoints: "websecure"
+      traefik.http.routers.links.tls.certresolver: "letsencrypt"
+      traefik.http.routers.links.middlewares: "laravel-security@file"
+      traefik.http.services.links.loadbalancer.server.port: "80"

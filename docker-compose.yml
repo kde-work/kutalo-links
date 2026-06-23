@@ -1,0 +1,38 @@
+name: kutalo-links
+
+services:
+  links-php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: kutalo-links-php
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./backend:/var/www/html
+      - ./.env:/var/www/html/.env:ro
+    networks:
+      - kutalo-appnet
+    labels:
+      traefik.enable: "false"
+
+  links-nginx:
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile
+    container_name: kutalo-links-nginx
+    restart: unless-stopped
+    depends_on:
+      - links-php
+    volumes:
+      - ./backend:/var/www/html
+    networks:
+      - kutalo-appnet
+    labels:
+      traefik.enable: "false"
+
+networks:
+  kutalo-appnet:
+    external: true
+    name: kutalo-appnet
