@@ -1,4 +1,16 @@
 services:
+  links-php:
+    volumes:
+      - ./backend/app:/var/www/html/app
+      - ./backend/bootstrap/app.php:/var/www/html/bootstrap/app.php
+      - ./backend/bootstrap/providers.php:/var/www/html/bootstrap/providers.php
+      - ./backend/config:/var/www/html/config
+      - ./backend/database:/var/www/html/database
+      - ./backend/resources:/var/www/html/resources
+      - ./backend/routes:/var/www/html/routes
+      - ./backend/artisan:/var/www/html/artisan
+      - ./docker/php/opcache-live-code.ini:/usr/local/etc/php/conf.d/zz-opcache-live-code.ini:ro
+
   links-nginx:
     labels:
       traefik.enable: "true"

@@ -79,8 +79,27 @@ bash docs/switch-to-production.sh
 ```
 
 Скрипт поднимет links с overlay `docker-compose.production.yml` (TLS через Traefik).
-Код и `vendor` берутся из Docker-образа; с хоста монтируются только `.env`, `storage` и `bootstrap/cache`.
+PHP-код Laravel монтируется с хоста поверх образа, а `vendor` остается внутри образа.
+После `git pull` изменения в `app`, `routes`, `config`, `database`, `resources`, `bootstrap/app.php`,
+`bootstrap/providers.php` и `artisan` применяются без пересборки backend-образа.
+OPcache в продакшн-оверлее проверяет измененные PHP-файлы на каждом запросе.
 Frontend собирается внутри nginx-образа при `docker compose ... up --build`.
+
+После первого обновления на эту схему нужно пересоздать PHP-контейнер, чтобы Docker применил новые mounts и OPcache-настройки:
+
+```bash
+cd kutalo/links
+docker compose -f docker-compose.yml -f docker-compose.production.yml up -d links-php
+```
+
+Дальше для обычных изменений PHP-кода достаточно `git pull`.
+Пересборка `links-php` нужна, если изменились `composer.json`, `composer.lock`, Dockerfile или системные PHP-зависимости.
+При изменении `.env` перезапуск обычно не нужен, если нет кеша конфигурации Laravel.
+Если включали кеш конфигурации, выполните:
+
+```bash
+docker compose exec links-php php artisan optimize:clear
+```
 
 Первый запуск на сервере (если ещё не делали):
 
