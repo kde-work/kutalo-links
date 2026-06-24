@@ -32,8 +32,8 @@ class SlugGenerator
     {
         $slug = trim($slug);
 
-        if (!preg_match('/^[a-zA-Z0-9_-]{2,32}$/', $slug)) {
-            throw new \InvalidArgumentException('Slug должен содержать 2-32 символа: буквы, цифры, _ и -');
+        if (!preg_match('/^[a-zA-Z0-9_-]{1,32}$/', $slug)) {
+            throw new \InvalidArgumentException('Slug должен содержать 1-32 символа: буквы, цифры, _ и -');
         }
 
         if (ReservedSlugs::isReserved($slug)) {

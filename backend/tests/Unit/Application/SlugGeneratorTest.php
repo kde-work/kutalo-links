@@ -43,12 +43,17 @@ class SlugGeneratorTest extends TestCase
         $this->assertSame('my-link_1', $this->generator->validateCustom('my-link_1'));
     }
 
+    public function test_validate_custom_accepts_single_character_slug(): void
+    {
+        $this->assertSame('1', $this->generator->validateCustom('1'));
+    }
+
     public function test_validate_custom_rejects_invalid_format(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('2-32 символа');
+        $this->expectExceptionMessage('1-32 символа');
 
-        $this->generator->validateCustom('a');
+        $this->generator->validateCustom('bad slug');
     }
 
     public function test_validate_custom_rejects_reserved_slug(): void

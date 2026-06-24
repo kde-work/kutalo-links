@@ -22,6 +22,25 @@ class ShortLinkApiTest extends TestCase
         ])->assertUnauthorized();
     }
 
+    public function test_user_can_create_link_with_single_character_slug(): void
+    {
+        $this->authenticateUser();
+
+        $destinationUrl = 'https://disk.yandex.ru/d/uDzI4a7MDurT8A/1%20%D0%BF%D0%B5%D1%80%D0%B2%D0%B0%D1%8F%20%D0%B2%D1%81%D1%82%D1%80%D0%B5%D1%87%D0%B0%20%D1%81%20%D0%BF%D0%B0%D0%BF%D0%BE%D0%B9.mp4';
+
+        $response = $this->postJson('/api/links', [
+            'slug' => '1',
+            'destination_url' => $destinationUrl,
+            'title' => 'Первая встреча с папой',
+        ]);
+
+        $response
+            ->assertCreated()
+            ->assertJsonPath('slug', '1')
+            ->assertJsonPath('destination_url', $destinationUrl)
+            ->assertJsonPath('title', 'Первая встреча с папой');
+    }
+
     public function test_user_can_create_link_with_custom_slug(): void
     {
         $this->authenticateUser();

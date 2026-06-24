@@ -39,7 +39,7 @@ import { ShortLink } from './models';
               <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Slug (необязательно)</mat-label>
                 <input matInput formControlName="slug" placeholder="my-link" />
-                <mat-hint>2-32 символа. Если пусто — сгенерируется автоматически</mat-hint>
+                <mat-hint>1-32 символа. Если пусто — сгенерируется автоматически</mat-hint>
               </mat-form-field>
             }
 

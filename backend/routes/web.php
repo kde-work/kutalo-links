@@ -10,6 +10,6 @@ foreach (ReservedSlugs::all() as $reservedSlug) {
 }
 
 Route::get('/{slug}', [RedirectController::class, 'redirect'])
-    ->where('slug', '[a-zA-Z0-9_-]{2,32}');
+    ->where('slug', '[a-zA-Z0-9_-]{1,32}');
 
 Route::fallback([SpaController::class, 'index']);
