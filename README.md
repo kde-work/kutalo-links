@@ -33,10 +33,12 @@ bash docs/switch-to-local.sh
 cd kutalo/links
 cp backend/.env.example backend/.env
 # заполните DB_PASSWORD и REDIS_PASSWORD из mysql/.env и infra/.env
-docker compose up -d --build
+docker compose -f docker-compose.yml -f docker-compose.local.yml up -d --build
 docker compose exec links-php php artisan key:generate
 docker compose exec links-php php artisan migrate --seed
 ```
+
+`--build` собирает PHP-образ и nginx-образ. Nginx-образ внутри себя выполняет `npm run build` и кладет SPA в `public/spa/browser`.
 
 4. Откройте `http://l.kutalo.test` и войдите:
    - email: `ADMIN_EMAIL` из `backend/.env` (по умолчанию `admin@kutalo.test`)
@@ -77,6 +79,19 @@ bash docs/switch-to-production.sh
 ```
 
 Скрипт поднимет links с overlay `docker-compose.production.yml` (TLS через Traefik).
+Код и `vendor` берутся из Docker-образа; с хоста монтируются только `.env`, `storage` и `bootstrap/cache`.
+Frontend собирается внутри nginx-образа при `docker compose ... up --build`.
+
+Первый запуск на сервере (если ещё не делали):
+
+```bash
+cd kutalo/links
+cp backend/.env.example backend/.env
+# заполните секреты и APP_ENV=production
+docker compose -f docker-compose.yml -f docker-compose.production.yml up -d --build
+docker compose exec links-php php artisan key:generate
+docker compose exec links-php php artisan migrate --seed
+```
 
 ## Архитектура backend (DDD)
 

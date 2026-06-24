@@ -1,0 +1,6 @@
+# Локальная разработка: монтируем исходники backend только в PHP.
+# Nginx использует SPA, собранный в образе при docker compose ... up --build.
+services:
+  links-php:
+    volumes:
+      - ./backend:/var/www/html

@@ -29,8 +29,10 @@ COPY backend/ ./
 RUN composer dump-autoload --optimize --no-dev \
     && chown -R www-data:www-data storage bootstrap/cache
 
-USER www-data
+COPY docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint-links.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint-links.sh
 
 EXPOSE 9000
 
+ENTRYPOINT ["docker-entrypoint-links.sh"]
 CMD ["php-fpm"]
